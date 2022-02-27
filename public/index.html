@@ -16,3 +16,160 @@
 <body>
 </body>
 </html>
+
+
+<style>
+	*, *::before {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+html {
+    font-family: 'Sen', sans-serif;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-image: url("images/macmojave.jpg");
+    position: absolute;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+
+}
+
+.container {
+    width: 58rem;
+    height: 35rem;
+    margin: auto;
+    margin-top: 10rem;
+    background-color: #c0c2ce4f;
+    backdrop-filter: blur(44px);
+    border-radius: 2rem;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    height: 5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border-bottom: 1px solid #A1A1A1;
+}
+
+.searchIcon {
+    display: block;
+    height: 5rem;
+    width: 5rem;
+
+}
+.searchIcon img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    margin: auto;
+}
+
+.search {
+    width: 90%
+}
+.search input{
+    font-size: 2rem;
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 100%;
+    
+}
+
+.content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.left-col, .right-col {
+    width: 50%;
+    height: 100%;
+}
+.left-col {
+    border-right: 1px solid #A1A1A1;;
+}
+
+.left-col .results {
+    display: flex;
+    flex-direction: column;
+}
+
+.moduleDivider {
+    background-color: #a1a1a193;
+    font-family: 'DM Mono', monospace;
+    text-align: left;
+    line-height: 100%;
+    height: 1rem;
+    width: 100%;
+    user-select: none;
+
+}
+.moduleDivider span {
+    margin-left: 1.5rem;
+}
+.searchResult {
+    height: 2.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    user-select: none;
+}
+.searchResult:hover {
+    cursor: pointer;
+    background-color: #0B71BB;
+    color: white;
+}
+.searchImg {
+    height: 2.5rem;
+    width: 2.5rem;
+    margin-left: 1rem;
+    padding: .6rem;
+}
+.searchResult p {
+    width: 90%;
+    height: auto;
+    margin-left: .6rem;
+    font-size: 1.5rem;
+}
+.resultContainer {
+    height: 100%;
+    width: 100%;
+    border-bottom-right-radius: 2rem;
+    overflow: hidden;
+}
+.blocky {
+    height: 100%;
+    width: 100%;
+    background-color: #333030ca;
+    padding: 1rem;
+}
+.blocky *{
+    height: auto;
+    width: auto;
+    line-height: 2rem;
+    color:rgb(216, 207, 207)
+}
+.blocky table{
+    width: 100%;
+    text-align: left;
+}
+</style>
