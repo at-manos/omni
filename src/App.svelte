@@ -1,5 +1,56 @@
-<script lang="ts">
-	export let name: string;
+<script>
+    import {invoke} from '@tauri-apps/api/tauri'
+    import { onMount } from "svelte";
+    // const invoke = window.__TAURI_IPC__.invoke
+    async function run(search){
+        return JSON.parse(await t(search));
+        // console.log(test);
+    }
+    // async
+    async function t(search){
+        let test = await (invoke("search", {search: search}))
+        return test;
+    }
+
+    var test = run().then(val=>{return val});
+    console.log(test);
+    var setInnerHTML = function(elm, html) {
+        elm.innerHTML = html;
+        Array.from(elm.querySelectorAll("script")).forEach( oldScript => {
+            const newScript = document.createElement("script");
+            Array.from(oldScript.attributes)
+            .forEach( attr => newScript.setAttribute(attr.name, attr.value) );
+            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+        });
+    }
+    onMount(async ()=>{
+        var input = document.querySelector(".searchinput");
+        input.addEventListener("keyup", async function(event) {
+            // if(event.keyCode === 13){
+                console.log(input.value);
+                test = await run(input.value).then(val=>{return val});
+                console.log(test);
+                setInnerHTML(document.querySelector(".resultContainer"), "");
+            // }
+        });
+        // var but = document.querySelector(".searchResult");
+        // but.addEventListener("click", function(event) {
+        //         console.log("test");
+        //         // test = run(input.value).then(val=>{return val});
+        // });
+    })
+    async function getResult(search, module, uid){
+        let test = await (invoke("result", {search: search, module: module, uid: uid}));
+        setInnerHTML(document.querySelector(".resultContainer"), await test);
+        return test;
+    }
+    function handleClick(e) {
+        document.querySelector(".resultContainer").innerHTML = "";
+		let path = e.composedPath();
+        let res = getResult(document.querySelector(".searchinput").value, path[1].id, path[0].id).then(val=>{return val});
+        console.log(res);
+	}
 </script>
 
 <main>
@@ -17,81 +68,30 @@
                 <div class="left-col">
                     <div class="results">
                         <!-- divider -->
-                        <div class="moduleDivider">
-                            <span>web</span>
-                        </div>
-                        <!-- mock results -->
-                        <div class="searchResult">
-                            <div class="searchImg">
-                                <img src="images/web.png">
-                            </div>
-                            <p>Go to google.com</p>
-                        </div>
-                        <div class="searchResult">
-                            <div class="searchImg">
-                                <img src="images/web.png">
-                            </div>
-                            <p>Generate shortlink for google.com</p>
-                        </div>
+                        {#await test then results}
 
-                        <div class="moduleDivider">
-                            <span>networking</span>
-                        </div>
-                        <div class="searchResult">
-                            <div class="searchImg">
-                                <img src="images/net.png">
+                            {#each results as mod}
+                            <div class="moduleDivider" >
+                                <span>{mod.name}</span>
                             </div>
-                            <p>Resolve google.com to IP address</p>
-                        </div>
-                        <div class="searchResult">
-                            <div class="searchImg">
-                                <img src="images/net.png">
-                            </div>
-                            <p>List DNS records for google.com</p>
-                        </div>
+                                {#each Object.entries(mod.results) as [k,v]}
+                                <div class="searchResult" id={mod.name} on:click={handleClick}>
+                                    <div class="searchImg">
+                                        <img src="images/web.png">
+                                    </div>
+                                    <p id={k} class="searchP">{v}</p>
+                                </div>
+                                {/each}
+                            {/each}
+                        {/await}
+                        <!-- mock results -->
+                        
                         <!-- /mock results -->
                     </div>
                 </div>
                 <div class="right-col">
                     <div class="resultContainer">
-                        <div class="blocky">
-                            <p class="code">
-                                Listing DNS records for www.google.com...
-                            </p>
-                            <h1 class="code">Records
-                            </h1>
-                                <table>
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Domain Name</th>
-                                        <th>TTL</th>
-                                        <th>Address</th>
-                                    </tr>
-                                    <tr>
-                                        <td>A</td>
-                                        <td>google.com</td>
-                                        <td>296</td>
-                                        <td>142.251.32.100</td>
-                                    </tr>
-                                <!-- </table> -->
-                                <!-- <h1 class="code">AAAA
-                                </h1> -->
-                                    <!-- <table>
-                                        <tr>
-                                            <th>Type</th>
-                                            <th>Domain Name</th>
-                                            <th>TTL</th>
-                                            <th>Address</th>
-                                        </tr> -->
-                                        <tr>
-                                            <td>AAAA</td>
-                                            <td>google.com</td>
-                                            <td>300</td>
-                                            <td>2607:f8b0:4006:80e::2004
-                                            </td>
-                                        </tr>
-                                    </table>
-                        </div>
+                        <!-- resultright -->
                     </div>
                 </div>
             </div>

@@ -12,13 +12,18 @@ rust-version = "1.57"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
-tauri-build = { version = "1.0.0-rc.3" }
+tauri-build = { version = "1.0.0-rc.3", features = [] }
 
 [dependencies]
-serde_json = "1.0"
+serde_json = {version = "1.0.79", features = ["preserve_order"] }
 serde = { version = "1.0", features = ["derive"] }
-tauri = { version = "1.0.0-rc.3", features = [ "api-all" ] }
-
+tauri = { version = "1.0.0-rc.3", features = ["api-all"] }
+regex = "1.5.4"
+strfmt = "0.1.6"
+open = "2.1.0"
+text_io = "0.1.10"
+# window-vibrancy = { git = "https://github.com/tauri-apps/window-vibrancy"} # or "tao-impl" for TAO projects.
+window-vibrancy = { git = "https://github.com/at-manos/window-vibrancy"}
 [features]
 # by default Tauri runs in production mode
 # when `tauri dev` runs it is executed with `cargo run --no-default-features` if `devPath` is an URL
